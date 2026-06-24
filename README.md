@@ -1,4 +1,4 @@
-#**Feedback Management System**
+## Feedback Management System
 
 A full-stack web application that allows users to submit feedback through a public form and enables an administrator to manage, analyze, and respond to that feedback through a secure admin panel.
 
@@ -8,4 +8,4 @@ The admin side is protected by JWT-based authentication and includes a full feed
 
 The admin dashboard provides a quick overview of key metrics including total submissions, average rating, and visual breakdowns by status and category. The system also sends automated email notifications to the admin whenever new feedback arrives.
 
-Built with Spring Boot (backend) and React with Axios (frontend).
+Built with **Spring Boot** (backend) and **React + Axios** (frontend).
