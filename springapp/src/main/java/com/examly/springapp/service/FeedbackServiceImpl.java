@@ -26,6 +26,24 @@ public class FeedbackServiceImpl implements FeedbackService {
         return frepo.findAll();
     }
 
-    //@Override
-    //public Feedback updateStatus(Long id, String)
+    @Override
+    public List<Feedback> getUserFeedback(String userid){
+        List<Feedback> list=frepo.findByUserid(userid);
+        for(Feedback fb: list){
+            fb.setStatus(FeedbackStatus.APPROVED);
+        }
+        return list;
+    }
+
+    @Override
+    public Feedback updateStatus(Long id, FeedbackStatus status){
+        Feedback fb=frepo.findById(id).orElseThrow();
+        fb.setStatus(status);
+        return frepo.save(fb);
+    }
+
+    @Override
+    public void deleteFeedback(Long id){
+        frepo.deleteById(id);
+    }
 }
