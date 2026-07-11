@@ -36,12 +36,19 @@ public class AdminFeedbackController {
 
     @PutMapping("/feedback/{id}/status")
     public ResponseEntity<Feedback> updateStatus(@PathVariable Long id,@RequestBody StatusRequest request){
-        return new ResponseEntity<>(fs.updateStatus(id, request.getStatus()), HttpStatus.OK);
+        Feedback fb=fs.updateStatus(id, request.getStatus());
+        if(fb==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }        
+        return new ResponseEntity<>(fb, HttpStatus.OK);
     }
 
     @DeleteMapping("/feedback/{id}")
     public ResponseEntity<Void> deleteFeedback(@PathVariable Long id) {
-        fs.deleteFeedback(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        boolean df=fs.deleteFeedback(id);
+        if(df){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

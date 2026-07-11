@@ -12,6 +12,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Feedback {
@@ -19,9 +23,18 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @NotBlank(message = "User ID is required")
     private String userid;
+
+    @NotBlank(message = "Product ID is required")
     private String productid;
+
+    @Min(value = 1, message = "Rating must be between 1 and 5")
+    @Max(value = 5, message = "Rating must be between 1 and 5")
     private int rating;
+
+    @Size(min = 10, max = 500,message = "Comment must be between 10 and 500 characters")
     private String comment;
 
     @Enumerated(EnumType.STRING)

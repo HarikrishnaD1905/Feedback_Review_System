@@ -15,5 +15,5 @@ public interface FeedbackService {
 
     Feedback updateStatus(Long id, FeedbackStatus status);
 
-    void deleteFeedback(Long id);
+    boolean deleteFeedback(Long id);
 } 

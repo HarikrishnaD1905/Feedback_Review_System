@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.examly.springapp.model.Feedback;
 import com.examly.springapp.service.FeedbackService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class FeedbackController {
@@ -22,7 +24,7 @@ public class FeedbackController {
     private FeedbackService fs;
 
     @PostMapping("/feedback")
-    public ResponseEntity<Feedback> addFb(@RequestBody Feedback fb){
+    public ResponseEntity<Feedback> addFb(@Valid @RequestBody Feedback fb){
         Feedback feed = fs.addFeedback(fb);
         return new ResponseEntity<> (feed,HttpStatus.CREATED);
     }
