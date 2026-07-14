@@ -27,15 +27,15 @@ public class AdminFeedbackController {
     @GetMapping("/feedback")
     public ResponseEntity<List<Feedback>> getAllFeedback(){
         List<Feedback> feedbacks = fs.getAllFeedback();
-        for(Feedback fb: feedbacks){
-            fb.setStatus(FeedbackStatus.APPROVED);
-        }
-        return new ResponseEntity<>(feedbacks,HttpStatus.OK);
+        return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
 
     @PutMapping("/feedback/{id}/status")
     public ResponseEntity<Feedback> updateStatus(@PathVariable Long id,@RequestBody StatusRequest request){
-        Feedback fb=fs.updateStatus(id, request.getStatus());
+        if (request == null || request.getStatus() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Feedback fb = fs.updateStatus(id, request.getStatus());
         if(fb==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }        

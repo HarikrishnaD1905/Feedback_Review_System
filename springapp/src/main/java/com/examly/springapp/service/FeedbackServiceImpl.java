@@ -29,10 +29,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<Feedback> getUserFeedback(String userid){
-        List<Feedback> list=frepo.findByUserid(userid);
-        for(Feedback fb: list){
-            fb.setStatus(FeedbackStatus.APPROVED);
-        }
+        List<Feedback> list = frepo.findByUserid(userid);
         return list;
     }
 
