@@ -1,22 +1,32 @@
 package com.examly.springapp.config;
 
-import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI(){
+        final String securitySchemeName = "bearerAuth";
+
+        SecurityScheme bearerScheme = new SecurityScheme()
+            .name("Authorization")
+            .type(SecurityScheme.Type.HTTP)
+            .scheme("bearer")
+            .bearerFormat("JWT");
+
         return new OpenAPI()
+            .components(new Components().addSecuritySchemes(securitySchemeName, bearerScheme))
+            .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
             .info(new Info()
                 .title("Feedback & Review System")
                 .description("Hello there")
@@ -26,9 +36,6 @@ public class SwaggerConfig {
                     .url("github_url"))
                 .license(new License()
                     .name("Apache 2.0")
-                    .url("https://www.apache.org/licenses/")))
-            .servers(List.of(
-                    new Server().url("http://localhost:8080")
-            ));
+                    .url("https://www.apache.org/licenses/")));
     }
 }

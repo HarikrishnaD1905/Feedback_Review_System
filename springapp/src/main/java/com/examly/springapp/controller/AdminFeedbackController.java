@@ -16,8 +16,7 @@ import com.examly.springapp.dto.StatusRequest;
 import com.examly.springapp.model.Feedback;
 import com.examly.springapp.model.FeedbackStatus;
 import com.examly.springapp.service.FeedbackService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/admin")

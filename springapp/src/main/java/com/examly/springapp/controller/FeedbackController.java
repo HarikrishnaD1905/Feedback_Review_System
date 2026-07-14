@@ -31,6 +31,7 @@ public class FeedbackController {
 
     @GetMapping("/feedback/user/{userid}")
     public ResponseEntity<List<Feedback>> getUserFeedback(@PathVariable String userid){
-        return new ResponseEntity<>(fs.getUserFeedback(userid), HttpStatus.OK);
+        List<Feedback> feedbacks = fs.getUserFeedback(userid);
+        return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
 }
