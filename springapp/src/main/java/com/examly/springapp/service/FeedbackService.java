@@ -1,19 +1,28 @@
 package com.examly.springapp.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import com.examly.springapp.dto.DashboardStatsResponse;
+import com.examly.springapp.dto.FeedbackResponse;
+import com.examly.springapp.dto.FeedbackSubmissionRequest;
 import com.examly.springapp.model.Feedback;
 import com.examly.springapp.model.FeedbackStatus;
 
 public interface FeedbackService {
 
-    Feedback addFeedback(Feedback fb);
+    Feedback submitFeedback(FeedbackSubmissionRequest request);
 
-    List<Feedback> getAllFeedback();
+    Page<FeedbackResponse> getAllFeedback(Pageable pageable, String name, String email,
+                                          Integer rating, FeedbackStatus status, Long categoryId);
 
-    List<Feedback> getUserFeedback(String userid);
+    FeedbackResponse getFeedbackById(Long id);
 
-    Feedback updateStatus(Long id, FeedbackStatus status);
+    Feedback updateStatus(Long id, FeedbackStatus status, String adminUsername);
 
-    boolean deleteFeedback(Long id);
-} 
+    Feedback assignCategory(Long id, Long categoryId, String adminUsername);
+
+    void deleteFeedback(Long id, String adminUsername);
+
+    DashboardStatsResponse getDashboardStats();
+}

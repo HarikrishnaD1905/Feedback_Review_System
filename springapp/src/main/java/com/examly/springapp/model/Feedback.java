@@ -3,109 +3,150 @@ package com.examly.springapp.model;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "feedback")
 public class Feedback {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @NotBlank(message = "User ID is required")
-    private String userid;
 
-    @NotBlank(message = "Product ID is required")
-    private String productid;
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Name must not contain special characters")
+    @Column(name = "submitter_name")
+    private String submitterName;
 
-    @Min(value = 1, message = "Rating must be between 1 and 5")
-    @Max(value = 5, message = "Rating must be between 1 and 5")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be a valid format")
+    @Column(name = "submitter_email", nullable = false)
+    private String submitterEmail;
+
+    @NotBlank(message = "Feedback content is required")
+    @Size(min = 1, max = 1000, message = "Feedback content must be between 1 and 1000 characters")
+    @Column(name = "feedback_content", columnDefinition = "TEXT", nullable = false)
+    private String feedbackContent;
+
+    @Min(value = 0, message = "Rating must be between 0 and 5")
+    @Max(value = 5, message = "Rating must be between 0 and 5")
     private int rating;
 
-    @Size(min = 10, max = 500,message = "Comment must be between 10 and 500 characters")
-    private String comment;
-
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private FeedbackStatus status;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "submitted_at")
+    private LocalDateTime submittedAt;
 
-    public Feedback(){}
+    @UpdateTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-    public Feedback(String userid,String productid, int rating, String comment){
-        this.userid=userid;
-        this.productid=productid;
-        this.rating=rating;
-        this.comment=comment;
+    public Feedback() {}
+
+    public Feedback(String submitterName, String submitterEmail, String feedbackContent, int rating) {
+        this.submitterName = submitterName;
+        this.submitterEmail = submitterEmail;
+        this.feedbackContent = feedbackContent;
+        this.rating = rating;
     }
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id){
-        this.id=id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getUserId(){
-        return userid;
+    public String getSubmitterName() {
+        return submitterName;
     }
 
-    public void setUserId(String userid){
-        this.userid=userid;
+    public void setSubmitterName(String submitterName) {
+        this.submitterName = submitterName;
     }
 
-    public String getProductId(){
-        return productid;
+    public String getSubmitterEmail() {
+        return submitterEmail;
     }
 
-    public void setProductId(String productid){
-        this.productid=productid;
+    public void setSubmitterEmail(String submitterEmail) {
+        this.submitterEmail = submitterEmail;
     }
 
-    public int getRating(){
+    public String getFeedbackContent() {
+        return feedbackContent;
+    }
+
+    public void setFeedbackContent(String feedbackContent) {
+        this.feedbackContent = feedbackContent;
+    }
+
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(int rating){
-        this.rating=rating;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
-    public String getComment(){
-        return comment;
-    }
-
-    public void setComment(String comment){
-        this.comment=comment;
-    }
-
-    public FeedbackStatus getStatus(){
+    public FeedbackStatus getStatus() {
         return status;
     }
 
-    public void setStatus(FeedbackStatus status){
-        this.status=status;
+    public void setStatus(FeedbackStatus status) {
+        this.status = status;
     }
 
-    public LocalDateTime getCreatedAt(){
-        return createdAt;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt){
-        this.createdAt=createdAt;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public LocalDateTime getSubmittedAt() {
+        return submittedAt;
+    }
+
+    public void setSubmittedAt(LocalDateTime submittedAt) {
+        this.submittedAt = submittedAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

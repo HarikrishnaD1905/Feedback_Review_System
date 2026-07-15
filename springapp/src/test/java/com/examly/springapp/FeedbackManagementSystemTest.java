@@ -73,21 +73,22 @@ class FeedbackManagementSystemTest {
         // Test 8: Feedback model can be instantiated
         assertDoesNotThrow(() -> {
             Feedback feedback = new Feedback();
-            feedback.setUserId("user123");
-            feedback.setProductId("prod456");
+            feedback.setSubmitterName("user123");
+            feedback.setSubmitterEmail("user@example.com");
             feedback.setRating(5);
-            feedback.setComment("Great product!");
-            feedback.setStatus(FeedbackStatus.PENDING);
+            feedback.setFeedbackContent("Great product! This is excellent.");
+            feedback.setStatus(FeedbackStatus.NEW);
         });
     }
 
     @Test
     void feedbackStatusEnumHasAllValues() {
         // Test 9: FeedbackStatus enum has all required values
-        assertEquals(3, FeedbackStatus.values().length);
-        assertNotNull(FeedbackStatus.valueOf("PENDING"));
-        assertNotNull(FeedbackStatus.valueOf("APPROVED"));
-        assertNotNull(FeedbackStatus.valueOf("REJECTED"));
+        assertEquals(4, FeedbackStatus.values().length);
+        assertNotNull(FeedbackStatus.valueOf("NEW"));
+        assertNotNull(FeedbackStatus.valueOf("IN_PROGRESS"));
+        assertNotNull(FeedbackStatus.valueOf("RESOLVED"));
+        assertNotNull(FeedbackStatus.valueOf("ARCHIVED"));
     }
 
     @Test

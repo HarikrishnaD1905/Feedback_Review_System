@@ -28,12 +28,15 @@ public class SwaggerConfig {
             .components(new Components().addSecuritySchemes(securitySchemeName, bearerScheme))
             .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
             .info(new Info()
-                .title("Feedback & Review System")
-                .description("Hello there")
+                .title("Feedback Management System API")
+                .version("v1")
+                .description("RESTful API for the Feedback Management System (FMS). "
+                        + "Provides endpoints for public feedback submission, "
+                        + "admin authentication, feedback management, categorization, "
+                        + "dashboard statistics, and audit trail.")
                 .contact(new Contact()
-                    .name("Igris")
-                    .email("727724eucs079@skcet.ac.in")
-                    .url("github_url"))
+                    .name("FMS Admin")
+                    .email("admin@feedbacksystem.com"))
                 .license(new License()
                     .name("Apache 2.0")
                     .url("https://www.apache.org/licenses/")));
